@@ -7,6 +7,30 @@
 // The purpose of this function is to determine in which slot to place our next enemy.
 // The possibilities are 0, 1, 2, 3 or 4.
 const nextEnemySpot = (enemies) => {
+  
+  let quadrant = [-180, -180, document.documentElement.clientWidth+180, document.documentElement.clientHeight+180];
+  let sel = Math.floor(Math.random()*4);
+
+  if (sel === 0 || sel === 2) {
+    enemyPos = {x: quadrant[sel], y: Math.random()*document.documentElement.clientHeight};
+  }
+  if (sel === 1 || sel === 3) {
+    enemyPos = {x: Math.random()*document.documentElement.clientWidth, y: quadrant[sel] };
+    
+  }
+
+  let angle = -Math.atan((enemyPos.x - gameEngine.player.x) / (enemyPos.y - gameEngine.player.y));
+  Math.round(Math.random()) ? angle += Math.random()*.1 : angle -= Math.random()*.1;
+  enemyPos.angle = angle;
+  //if (sel === 3) enemyPos.angle = -angle;
+  return enemyPos;
+  
+  
+  
+  
+  
+  
+  
   // enemySpots will refer to the number of spots available (can you calculate it?)
   const enemySpots = GAME_WIDTH / ENEMY_WIDTH;
 
@@ -34,33 +58,3 @@ const nextEnemySpot = (enemies) => {
   return candidate;
 };
 
-// addBackground contains all the logic to display the starry background of the game.
-// It is a variable that refers to a function.
-// The function takes one parameter
-// The parameter represents the DOM node to which we will add the background
-const addBackground = (root) => {
-  // We create a new img DOM node.
-  const bg = document.createElement('img');
-
-  // We set its src attribute and the height and width CSS attributes
-  bg.src = 'images/stars.png';
-  bg.style.height = `${GAME_HEIGHT}px`;
-  bg.style.width = `${GAME_WIDTH}px`;
-
-  // We add it to the root DOM node
-  root.append(bg);
-
-  // We don't want the enemies to go beyond the lower edge of the image
-  // so we place a white div to hide the enemies after they reach the bottom.
-  // To see what it does, you can comment out all the remaining lines in the function to see the effect.
-  const whiteBox = document.createElement('div');
-
-  // We put a high z-index so that the div is placed over all other DOM nodes
-  whiteBox.style.zIndex = 100;
-  whiteBox.style.position = 'absolute';
-  whiteBox.style.top = `${GAME_HEIGHT}px`;
-  whiteBox.style.height = `${ENEMY_HEIGHT}px`;
-  whiteBox.style.width = `${GAME_WIDTH}px`;
-  whiteBox.style.background = '#fff';
-  root.append(whiteBox);
-};

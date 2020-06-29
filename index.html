@@ -1,9 +1,132 @@
 <html>
 <head>    
     <title>Nyan Kat</title> 
+    <style>
+        .endScreen {
+            height: 400px;
+            width: 700px;
+            background: black;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            opacity: 1;
+            z-index: 150;
+            transform: translate(-50%, -50%);
+            visibility: hidden;
+
+        }
+        .endScreen > h1 {
+            color: white;
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, 0%);
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            font-size: 50px;
+        }
+
+        .endScreen > p{
+            color: white;
+            position: absolute;
+            left: 50%;
+            top: 65%;
+            text-align: center;
+            transform: translate(-50%, -40%);
+            user-select: none;
+        }
+
+        .img {
+            background-image: url(images/playerDead.png);
+            height: 137px;
+            width: 109px;
+            opacity: 1;
+            position: absolute;
+            left: 50%;
+            top: 40%;
+            transform: translate(-50%, -50%);
+
+        }
+
+        #reset {
+            color: black;
+            background-color: white;
+            width: 100px;
+            height: 30px;
+            vertical-align: middle;
+            position: absolute;
+            left: 50%;
+            top: 85%;
+            text-align: center;
+            justify-content: center;
+            transform: translate(-50%, -40%);
+            user-select: none;
+        }
+
+        .startScreen {
+            height: 400px;
+            width: 700px;
+            background: black;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            opacity: 1;
+            z-index: 150;
+            transform: translate(-50%, -50%);
+            visibility: visible;
+        }
+
+        .startScreen h1 {
+            color: white;
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, 0%);
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            font-size: 50px;
+        }
+
+        .startScreen p {
+            color: white;
+            position: absolute;
+            left: 50%;
+            top: 55%;
+            text-align: center;
+            transform: translate(-50%, -40%);
+            user-select: none;
+        }
+
+        #start {
+            color: black;
+            background-color: white;
+            width: 100px;
+            height: 30px;
+            vertical-align: middle;
+            position: absolute;
+            left: 50%;
+            top: 85%;
+            text-align: center;
+            justify-content: center;
+            transform: translate(-50%, -40%);
+            user-select: none;
+        }
+    </style>
 </head> 
 <body>    
-    <div id="app"></div> 
+    <div id="app">
+        <div class='endScreen'>
+            <h1>Game Over</h1>
+            <div class='img'></div>
+            <p id='score'></p>
+            <div id='reset'>Play again</div>
+        </div> 
+        <div class='startScreen'>
+            <h1>Galactic Cat Blaster</h1>
+            <p>Use WASD to move. Aim and shoot with the mouse. (best played full-screen)</p>
+            <div id='start'>Start</div>
+        </div> 
+    </div>
     <script src="js/data.js"></script> 
     <script src="js/Enemy.js"></script> 
     <script src="js/engine-utilities.js"></script> 
