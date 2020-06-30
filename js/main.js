@@ -6,7 +6,7 @@ let startScreen = document.querySelector('.startScreen');
 let reset = document.querySelector('#reset');
 start.addEventListener('click', () => {
   //gameEngine = new Engine(document.getElementById('app'));
-  gameEngine.gameLoop()
+  gameEngine.gameLoop();
   startScreen.style.visibility = 'hidden';
 } );
 
@@ -20,10 +20,12 @@ reset.addEventListener('click', () => {
 // The object will contain information about the key press, such as which key was pressed.
 
 const animatePlayer = (event) => {
-  let bool = false;
-  if (event.type === 'mousedown') bool = true;
-  //if (event.type === 'mouseup') bool = false;
-  gameEngine.player.shootAnimation(bool);
+  if (event.button === 0) {
+    let bool = false;
+    if (event.type === 'mousedown') bool = true;
+    //if (event.type === 'mouseup') bool = false;
+    gameEngine.player.shootAnimation(bool);
+  }
 }
 
 const accelerate = (event) => {
@@ -47,6 +49,12 @@ document.addEventListener('mousemove', moveAngle);
 //document.addEventListener('mousedown', playerAnimate);
 document.addEventListener('mousedown', animatePlayer);
 document.addEventListener('mouseup', animatePlayer);
+
+document.addEventListener('contextmenu', event => {
+  event.preventDefault();
+  //return false;
+  //animatePlayer;
+}, false);
 
 // We call the gameLoop method to start the game
 

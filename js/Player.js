@@ -47,6 +47,10 @@ class Player {
     this.deadSFX.src = 'images/playerExpl.mp3';
     this.deadSFX.setAttribute('preload', 'auto');
 
+    this.powerSFX = document.createElement('audio');
+    this.powerSFX.src = 'images/powerUp.mp3';
+    this.powerSFX.setAttribute('preload', 'auto');
+
   }
 
   projectile(loc) {
@@ -115,6 +119,7 @@ class Player {
       clearInterval(this.shoot);
       this.domElement.style.backgroundPositionX = 0;
     }
+    
   }
     }
 
@@ -133,18 +138,17 @@ class Player {
     
 
 
-    this.x += this.speed[0];
-    this.y -= this.speed[1];
+  
 
     if (this.x < 0) this.x = 0;
     if (this.y < 0) this.y = 0;
-    if (this.x > document.documentElement.clientWidth-75) this.x = document.documentElement.clientWidth-75;
-    if (this.y > document.documentElement.clientHeight-54) this.y = document.documentElement.clientHeight-54;
+    if (this.x > document.documentElement.clientWidth-120) this.x = document.documentElement.clientWidth-120;
+    if (this.y > document.documentElement.clientHeight-137) this.y = document.documentElement.clientHeight-137;
 
     if (this.x <= 0 && this.speed[0] < 0) this.speed[0] = 0;
     if (this.y <= 0 && this.speed[1] > 0) this.speed[1] = 0;
-    if (this.x >= document.documentElement.clientWidth-75 && this.speed[0] > 0) this.speed[0] = 0;
-    if (this.y >= document.documentElement.clientHeight-54 && this.speed[1] < 0) this.speed[1] = 0;
+    if (this.x >= document.documentElement.clientWidth-120 && this.speed[0] > 0) this.speed[0] = 0;
+    if (this.y >= document.documentElement.clientHeight-137 && this.speed[1] < 0) this.speed[1] = 0;
 
 
     this.domElement.style.top = `${this.y}px`;
@@ -154,10 +158,19 @@ class Player {
     if (this.speed[1] > 0)  this.speed[1] -= 0.05;
     if (this.speed[1] < 0)  this.speed[1] += 0.05;
 
+    if (this.speed[0] > 0.1 && this.keyPresses['KeyA'])  this.speed[0] -= 0.05;
+    if (this.speed[0] < -0.1 && this.keyPresses['KeyD'])  this.speed[0] += 0.05;
+    if (this.speed[1] > 0.1 && this.keyPresses['KeyS'])  this.speed[1] -= 0.05;
+    if (this.speed[1] < -0.1 && this.keyPresses['KeyW'])  this.speed[1] += 0.05;
+
     if (this.speed[0] > 0)  this.speed[0] -= 0.001;
     if (this.speed[0] < 0)  this.speed[0] += 0.001;
     if (this.speed[1] > 0)  this.speed[1] -= 0.001;
     if (this.speed[1] < 0)  this.speed[1] += 0.001;
+
+
+    this.x += this.speed[0];
+    this.y -= this.speed[1];
     
     //console.log(document.documentElement.clientHeight);
   }

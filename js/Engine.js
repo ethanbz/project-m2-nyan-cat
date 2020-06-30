@@ -16,6 +16,9 @@ class Engine {
     this.enemyCount = 0;
     this.enemies = [];
     this.difficulty = 1;
+    this.startTime;
+    this.timeElapsed = 0;
+    this.powerUp=false;
     
     // We add the background image to the game
     //addBackground(this.root);
@@ -23,6 +26,9 @@ class Engine {
     document.body.style.overflow = 'hidden';
     document.body.style.backgroundSize = 'cover';
     //document.body.style.backgroundRepeat = 'no-repeat';
+
+
+
 
     this.score = document.getElementById('score');
     this.endScreen = document.querySelector('.endScreen');
@@ -52,11 +58,11 @@ class Engine {
     // time this method was called.
     // (new Date).getTime() evaluates to the number of milliseconds since January 1st, 1970 at midnight.
     if (this.lastFrame === undefined) {
-      this.lastFrame = new Date().getTime();
+      this.lastFrame = this.startTime = new Date().getTime();
     }
 
     let timeDiff = new Date().getTime() - this.lastFrame;
-
+    this.timeElapsed += timeDiff;
     this.lastFrame = new Date().getTime();
     // We use the number of milliseconds since the last call to gameLoop to update the enemy positions.
     // Furthermore, if any enemy is below the bottom of our game, its destroyed property will be set. (See Enemy.js)
@@ -74,17 +80,26 @@ class Engine {
     });
 
     // We need to perform the addition of enemies until we have enough enemies.
-    while (this.enemies.length < maxEnemies) {
+    while (this.enemies.length < maxEnemies && this.timeElapsed > 3000) {
       // We find the next available spot and, using this spot, we create an enemy.
       // We add this enemy to the enemies array
       const spot = nextEnemySpot();
       this.enemies.push(new Enemy(this.root, spot));
       this.enemyCount++;
       if (this.enemyCount%10 === 0) maxEnemies++;
-      if (this.enemyCount%20 === 0) this.difficulty++;
-      if (this.difficulty === 10) this.player.interval = 100;
+      //if (this.enemyCount/2%10 === 0) this.difficulty++;
+    }
+    if (this.timeElapsed - 3000 - this.difficulty*15000 > 0) this.difficulty++;
+    if (this.difficulty === 4) {
+      this.player.interval = 100;
+      if (!this.powerUp) {
+        this.powerUp = true;
+        this.player.powerSFX.play();
+
+      }
     }
 
+    
 
     // We check if the player is dead. If he is, we alert the user
     // and return from the method (Why is the return statement important?)
